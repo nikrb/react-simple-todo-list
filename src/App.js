@@ -11,6 +11,7 @@ class App extends Component {
       newTodoText: ""
     }
   }
+  // TODO: should this be componentDidMount?
   componentWillMount = () => {
     LocalDB.init()
     .then( () => {
