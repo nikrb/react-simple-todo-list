@@ -12,10 +12,6 @@ function LocalDB(){
       open.onsuccess = () => {
         idb = open.result;
         resolve( true);
-        // we don't want to close db here!
-        // tx.oncomplete = () => {
-        //   db.close();
-        // };
       };
     });
     return promise;
