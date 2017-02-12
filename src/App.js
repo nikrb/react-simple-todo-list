@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import TodoItem from './components/TodoItem';
 import './App.css';
 
 class App extends Component {
@@ -83,11 +84,7 @@ class App extends Component {
         <div className="list-wrapper">
           <ul>
             { this.state.todos.map( (todo,i) => {
-                return (
-                  <li key={i}><input type="checkbox" onChange={this.completeCheck}/>
-                    {todo.text}
-                  </li>
-                );
+                return <TodoItem key={i} item={todo} completeCheck={this.completeCheck}></TodoItem>;
               })}
           </ul>
         </div>
