@@ -28,7 +28,6 @@ function LocalDB(){
     return promise;
   };
   const getTodos = () => {
-    // TODO: suppose idb isn't set when we call this?
     const promise = new Promise( ( resolve, reject) => {
       const tx = idb.transaction( "todoDB", "readonly");
       const store = tx.objectStore( "todoDB");
