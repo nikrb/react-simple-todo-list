@@ -82,7 +82,13 @@ class App extends Component {
         <h1>Todo List</h1>
         <div className="list-wrapper">
           <ul>
-            { this.state.todos.map( (todo,i) => <li key={i}><input type="checkbox" onChange={this.completeCheck}/>{todo.text}</li> )}
+            { this.state.todos.map( (todo,i) => {
+                return (
+                  <li key={i}><input type="checkbox" onChange={this.completeCheck}/>
+                    {todo.text}
+                  </li>
+                );
+              })}
           </ul>
         </div>
         <div className="new-todo-wrapper">
