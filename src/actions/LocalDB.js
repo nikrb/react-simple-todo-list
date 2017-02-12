@@ -15,7 +15,7 @@ function LocalDB(){
       };
     });
     return promise;
-  }
+  };
   const createTodo = ( text) => {
     const promise = new Promise( ( resolve, reject) => {
       const tx = idb.transaction( "todoDB", "readwrite");
@@ -43,7 +43,7 @@ function LocalDB(){
       };
     });
     return promise;
-  }
+  };
   const close = () => {
     idb.close();
   };
