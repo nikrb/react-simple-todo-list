@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TodoItem from './components/TodoItem';
+import LocalDB from './actions/LocalDB';
 import './App.css';
 
 class App extends Component {
@@ -9,42 +10,19 @@ class App extends Component {
       todos: [],
       newTodoText: ""
     }
-    this.idb = null;
   }
   componentWillMount(){
-    this.startDB();
+    const that = this;
+    LocalDB.init()
+    .then( () => {
+      LocalDB.getAll()
+      .then( (todo_list) => {
+        that.setState( { todos: todo_list});
+      });
+    });
   }
   componentWillUnmount(){
-    if( this.idb){
-      this.idb.close();
-    }
-  }
-  startDB(){
-    const that = this;
-    const open = window.indexedDB.open("todoDB", 1);
-    open.onupgradeneeded = () => {
-      this.idb = open.result;
-      this.idb.createObjectStore( "todoDB", { keyPath: "date"});
-    };
-    open.onsuccess = () => {
-      var todo_list = [];
-      this.idb = open.result;
-      const tx = this.idb.transaction( "todoDB", "readonly");
-      const store = tx.objectStore( "todoDB");
-      store.openCursor().onsuccess = (event) => {
-        const cur = event.target.result;
-        if( cur){
-          todo_list.push( cur.value);
-          cur.continue();
-        } else {
-          that.setState( { todos: todo_list});
-        }
-      };
-      // we don't want to close db here!
-      // tx.oncomplete = () => {
-      //   db.close();
-      // };
-    };
+    LocalDB.close();
   }
   todoTextUpdate = ( e) => {
     this.setState( { newTodoText: e.target.value});
@@ -63,16 +41,15 @@ class App extends Component {
     this.setState( { newTodoText: ""});
   };
   createTodo = ( text) => {
+    // TODO: don't think we need that with => syntax
     const that = this;
     console.log( "creating new todo:", text);
-    const tx = this.idb.transaction( "todoDB", "readwrite");
-    const store = tx.objectStore( "todoDB");
-    store.add( { date: new Date(), text: this.state.newTodoText})
-    .onsuccess = (e) => {
-      console.log( "todo added is:", e.target.result);
-      that.setState( { todos: [...that.state.todos, { date: e.target.result, text: this.state.newTodoText}]});
+    LocalDB.createTodo( text)
+    .then( (created_date) => {
+      console.log( "todo added is:", created_date);
+      that.setState( { todos: [...that.state.todos, { date: created_date, text: that.state.newTodoText}]});
       that.clearTodoText();
-    };
+    });
   };
   completeCheck = (e) => {
     console.log( "checked:", e.target.checked);
