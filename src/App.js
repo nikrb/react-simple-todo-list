@@ -11,16 +11,15 @@ class App extends Component {
       newTodoText: ""
     }
   }
-  componentWillMount(){
-    const that = this;
+  componentWillMount = () => {
     LocalDB.init()
     .then( () => {
       LocalDB.getAll()
       .then( (todo_list) => {
-        that.setState( { todos: todo_list});
+        this.setState( { todos: todo_list});
       });
     });
-  }
+  };
   componentWillUnmount(){
     LocalDB.close();
   }
@@ -41,14 +40,12 @@ class App extends Component {
     this.setState( { newTodoText: ""});
   };
   createTodo = ( text) => {
-    // TODO: don't think we need that with => syntax
-    const that = this;
     console.log( "creating new todo:", text);
     LocalDB.createTodo( text)
     .then( (created_date) => {
       console.log( "todo added is:", created_date);
-      that.setState( { todos: [...that.state.todos, { date: created_date, text: that.state.newTodoText}]});
-      that.clearTodoText();
+      this.setState( { todos: [...this.state.todos, { date: created_date, text: this.state.newTodoText}]});
+      this.clearTodoText();
     });
   };
   completeCheck = (e) => {
