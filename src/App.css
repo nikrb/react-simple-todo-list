@@ -23,14 +23,16 @@ li {
   border: 2px solid #54b4eb;
   border-radius: 5px;
 }
+
 .new-todo-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   line-height: 1.5em;
 }
-input {
+input[type=text] {
   width: 300px;
+  padding-left: 10px;
 }
 .btn-blue {
   /* btn */

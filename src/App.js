@@ -73,17 +73,22 @@ class App extends Component {
       that.clearTodoText();
     };
   };
+  completeCheck = (e) => {
+    console.log( "checked:", e.target.checked);
+  };
   render() {
     return (
       <div className="page-wrapper">
         <h1>Todo List</h1>
         <div className="list-wrapper">
           <ul>
-            { this.state.todos.map( (todo,i) => <li key={i}>{todo.text}</li>)}
+            { this.state.todos.map( (todo,i) => <li key={i}><input type="checkbox" onChange={this.completeCheck}/>{todo.text}</li> )}
           </ul>
         </div>
         <div className="new-todo-wrapper">
-          <input type="text" onChange={this.todoTextUpdate} onKeyUp={this.catchEnter} value={this.state.newTodoText} />
+          <input type="text" onChange={this.todoTextUpdate} onKeyUp={this.catchEnter}
+            placeholder="New todo text"
+            value={this.state.newTodoText} />
           <button type="button" className="btn-blue" onClick={this.createTodoClick} >Create</button>
         </div>
       </div>
