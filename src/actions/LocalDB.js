@@ -27,6 +27,17 @@ function LocalDB(){
     });
     return promise;
   };
+  const deleteTodo = (by_date) => {
+    const promise = new Promise( (resolve, reject) => {
+      const tx = idb.transaction( "todoDB", "readwrite");
+      const store = tx.objectStore( "todoDB");
+      store.delete( by_date);
+      tx.oncomplete = (e) => {
+        resolve( e.target.result);
+      };
+    });
+    return promise;
+  };
   const getTodos = () => {
     const promise = new Promise( ( resolve, reject) => {
       const tx = idb.transaction( "todoDB", "readonly");
@@ -51,6 +62,7 @@ function LocalDB(){
   that.close = close;
   that.getAll = getTodos;
   that.createTodo = createTodo;
+  that.deleteTodo = deleteTodo;
   return that;
 }
 

@@ -49,8 +49,17 @@ class App extends Component {
       this.clearTodoText();
     });
   };
-  completeCheck = (e) => {
-    console.log( "checked:", e.target.checked);
+  completeCheck = (todo) => {
+    // console.log( "checked:", e.target.checked);
+    console.log( "delete item:", todo);
+    LocalDB.deleteTodo( todo.date)
+    .then( (success) => {
+      console.log( "deleted");
+      this.removeTodo( todo);
+    });
+  };
+  removeTodo = (todo) => {
+    this.setState( { todos: this.state.todos.filter( item => item.date !== todo.date )});
   };
   render() {
     return (

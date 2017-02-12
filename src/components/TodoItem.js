@@ -4,9 +4,13 @@ class TodoItem extends Component {
   constructor( props){
     super();
   }
+  completeCheck = (event) => {
+    event.preventDefault();
+    this.props.completeCheck( this.props.item);
+  };
   render(){
     return (
-      <li><input type="checkbox" onChange={this.props.completeCheck}/>{this.props.item.text}</li>
+      <li><input type="checkbox" onChange={this.completeCheck}/>{this.props.item.text}</li>
     );
   }
 }
